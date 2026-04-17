@@ -84,7 +84,7 @@ export default function RevealView({ guardian, onRestart }: RevealViewProps) {
             style={{ top: "10%", height: "80%" }}
           >
             <Image
-              src={`/guardian_${guardian.mbti}.png`}
+              src={`/guardian_${guardian.mbti}.webp`}
               alt={guardian.name}
               width={220}
               height={320}
