@@ -162,72 +162,127 @@ export function getGuardian(mbti: string): Guardian | undefined {
   return guardians.find(g => g.mbti === mbti.toUpperCase());
 }
 
+export interface MBTIOption {
+  letter: string;
+  label: string;
+  description: string;
+}
+
 export interface MBTIStep {
   question: string;
   emoji: string;
-  optionA: { letter: string; label: string; description: string };
-  optionB: { letter: string; label: string; description: string };
+  options: [MBTIOption, MBTIOption, MBTIOption, MBTIOption];
 }
 
 export const steps: MBTIStep[] = [
   {
-    question: "朋友突然说「今晚聚餐，来不来？」",
-    emoji: "🍜",
-    optionA: { letter: "E", label: "冲！马上出发", description: "社交续命，不去白不去\n多一个人多一份热闹" },
-    optionB: { letter: "I", label: "找个借口推了", description: "我的沙发才是真爱\n今晚属于我和我自己" },
+    // E/I × 2 + E/I × 2
+    question: "深夜11点，暗恋的人突然发来「你睡了吗？」",
+    emoji: "🌙",
+    options: [
+      { letter: "E", label: "秒回：没呢，怎么了？", description: "心跳加速但手速更快\n机会来了当然要接" },
+      { letter: "E", label: "直接打过去", description: "文字太慢，声音更撩\n打电话才是真勇气" },
+      { letter: "I", label: "盯着屏幕看了五分钟才回", description: "想好每个字再发\n不能显得太主动" },
+      { letter: "I", label: "假装已读不回，明天再说", description: "深夜情绪不稳定\n清醒的时候再聊" },
+    ],
   },
   {
-    question: "你在一个陌生人满满的派对上……",
-    emoji: "🎉",
-    optionA: { letter: "E", label: "主动搭讪五个人", description: "认识新朋友超开心\n今晚说不定能交到铁子" },
-    optionB: { letter: "I", label: "找角落蹲着玩手机", description: "人太多了脑子嗡嗡的\n等主人来找我就好" },
+    // N/S × 2 + N/S × 2
+    question: "第一次去对方家，你注意到的第一件事是……",
+    emoji: "🏠",
+    options: [
+      { letter: "N", label: "书架上放的书", description: "书单暴露灵魂\n看完立刻分析人格" },
+      { letter: "N", label: "墙上挂的画/照片", description: "审美就是世界观\n细节里藏着故事" },
+      { letter: "S", label: "冰箱里有什么", description: "吃什么的人就是什么样的人\n民以食为天" },
+      { letter: "S", label: "家里干不干净", description: "生活习惯最重要\n这个直接影响以后" },
+    ],
   },
   {
-    question: "连续工作三天后，你最想……",
-    emoji: "😮‍💨",
-    optionA: { letter: "E", label: "约朋友出去嗨", description: "憋坏了！需要人气充电\n出去玩才能满血复活" },
-    optionB: { letter: "I", label: "一个人宅家发呆", description: "终于可以安静一下了\n独处才是真正的休息" },
+    // T/F × 2 + T/F × 2
+    question: "你喜欢的人说「我最近压力好大」，你第一反应是……",
+    emoji: "🫂",
+    options: [
+      { letter: "T", label: "帮他分析压力来源", description: "找到根因才能解决\n情绪宣泄治标不治本" },
+      { letter: "T", label: "给他列一个解压计划", description: "行动比安慰有用\n我来帮你搞定它" },
+      { letter: "F", label: "说「我在呢，说来听听」", description: "他需要的是被听见\n先陪着就够了" },
+      { letter: "F", label: "默默帮他订一家好吃的", description: "话不用多\n吃饱了心情自然好" },
+    ],
   },
   {
-    question: "看到天上的云，你第一反应是……",
-    emoji: "☁️",
-    optionA: { letter: "N", label: "那朵像条龙！", description: "脑洞大开停不下来\n已经想好后续故事了" },
-    optionB: { letter: "S", label: "今天天气不错", description: "云就是云，很美\n脚踏实地看眼前就好" },
+    // J/P × 2 + J/P × 2
+    question: "约好周末一起出去，对方说「你来定吧」，你……",
+    emoji: "🗓️",
+    options: [
+      { letter: "J", label: "发来一份详细攻略", description: "几点集合、吃什么、去哪里\n全部安排好了" },
+      { letter: "J", label: "提前三天就开始规划", description: "不提前准备会焦虑\n计划好了才能放松玩" },
+      { letter: "P", label: "「到时候看心情」", description: "临时起意才有惊喜\n计划会扼杀浪漫" },
+      { letter: "P", label: "出门再说，走哪算哪", description: "迷路也是一种探险\n反正在一起就好" },
+    ],
   },
   {
-    question: "买了一个新玩意儿，你会……",
-    emoji: "📦",
-    optionA: { letter: "N", label: "直接上手摸索", description: "说明书是什么东西？\n凭感觉肯定能搞定" },
-    optionB: { letter: "S", label: "先把说明书看完", description: "步骤清晰才不会出错\n一步一步来最稳" },
+    // E/I
+    question: "KTV包厢，麦克风空着，你会……",
+    emoji: "🎤",
+    options: [
+      { letter: "E", label: "第一个冲上去抢", description: "等什么等！\n我的主场我做主" },
+      { letter: "E", label: "点一首大家都会唱的带动全场", description: "气氛王就是我\n一起嗨才叫嗨" },
+      { letter: "I", label: "等别人先唱，我负责打分", description: "观众也是重要角色\n不是不想唱，是在蓄力" },
+      { letter: "I", label: "只唱一首然后把麦塞给别人", description: "完成任务就好\n舞台不是我的" },
+    ],
   },
   {
-    question: "朋友跟你哭诉失恋，你会……",
-    emoji: "😭",
-    optionA: { letter: "T", label: "分析他哪里做错了", description: "理性复盘才能避免下次\n情绪过了要找原因" },
-    optionB: { letter: "F", label: "先抱着他哭一场", description: "此刻他需要的是共情\n道理以后再说" },
+    // N/S
+    question: "刷到一条新闻「科学家发现平行宇宙存在证据」，你……",
+    emoji: "🌌",
+    options: [
+      { letter: "N", label: "立刻开始想另一个自己在干嘛", description: "平行宇宙的我是不是更勇敢\n做了那些没做的选择" },
+      { letter: "N", label: "转发给朋友「你看这个！」然后聊到凌晨", description: "这种话题停不下来\n宇宙和人生都要聊" },
+      { letter: "S", label: "看看评论区怎么说", description: "先确认是不是标题党\n不轻易相信没验证的东西" },
+      { letter: "S", label: "随手点了个赞就划走了", description: "和我现在的生活没关系\n还是关心今天吃什么" },
+    ],
   },
   {
-    question: "团队方案有明显漏洞，你会……",
-    emoji: "📋",
-    optionA: { letter: "T", label: "直接指出问题", description: "说清楚才能改进\n对事不对人，没毛病" },
-    optionB: { letter: "F", label: "私下悄悄提醒", description: "当众说会让人难堪\n照顾情绪更重要" },
+    // T/F
+    question: "你暗恋的人发了条朋友圈「好累，不想努力了」，你……",
+    emoji: "💬",
+    options: [
+      { letter: "T", label: "评论「说说看，什么情况？」", description: "了解清楚才能帮上忙\n空洞的安慰没意义" },
+      { letter: "T", label: "私信「你目前最大的问题是什么」", description: "直接问核心\n解决问题比共情更有效" },
+      { letter: "F", label: "点了个心，然后私信「我懂」", description: "有时候两个字比长篇大论更有力\n感受到就够了" },
+      { letter: "F", label: "发语音说「我也是，我们一起摆烂吧」", description: "共情是最好的连接\n一起废了才是真朋友" },
+    ],
   },
   {
-    question: "你选礼物的标准是……",
-    emoji: "🎁",
-    optionA: { letter: "T", label: "实用第一，贵不如用", description: "送对了才有意义\n颜值再高没用就是废" },
-    optionB: { letter: "F", label: "有心意比啥都强", description: "礼轻情意重嘛\n看到就想到我才是关键" },
+    // J/P
+    question: "手机快没电了，充电器不在身边，你……",
+    emoji: "🔋",
+    options: [
+      { letter: "J", label: "早就备了充电宝，从包里掏出来", description: "有备无患是基本素养\n这种情况我预料到了" },
+      { letter: "J", label: "关掉所有后台，开省电模式撑到家", description: "资源管理是门学问\n有序应对不慌张" },
+      { letter: "P", label: "到处问人借充电线", description: "求助也是一种能力\n总有人愿意帮" },
+      { letter: "P", label: "「没电就没电吧」，享受离线时光", description: "这是宇宙在叫我休息\n断联一会儿挺好的" },
+    ],
   },
   {
-    question: "出去旅游，你的行程是……",
-    emoji: "✈️",
-    optionA: { letter: "J", label: "提前做好攻略", description: "每个景点几点到几点\n错峰出行，效率拉满" },
-    optionB: { letter: "P", label: "走到哪算哪", description: "计划赶不上变化\n说不定路上有惊喜" },
+    // E/I
+    question: "你在电梯里，和一个好看的陌生人四目相对，你……",
+    emoji: "🛗",
+    options: [
+      { letter: "E", label: "主动微笑打招呼", description: "帅/美就要说出来\n说不定是缘分的开始" },
+      { letter: "E", label: "找个话题搭话", description: "「你也住这层？」\n认识一下又何妨" },
+      { letter: "I", label: "迅速低头看手机", description: "眼神交流已经是极限了\n我不擅长这种场合" },
+      { letter: "I", label: "若无其事地盯着楼层数字", description: "假装什么都没发生\n电梯快点到吧" },
+    ],
   },
   {
-    question: "手机桌面是什么样的？",
-    emoji: "📱",
-    optionA: { letter: "J", label: "整整齐齐，分类清晰", description: "图标必须对齐\n乱了看着就难受" },
-    optionB: { letter: "P", label: "乱成一锅粥但我找得到", description: "反正我知道在哪\n整理太浪费时间了" },
+    // N/S + T/F 综合压轴题
+    question: "睡前，你脑子里最常出现的是……",
+    emoji: "🛌",
+    options: [
+      { letter: "N", label: "各种「如果当时我……」的平行宇宙", description: "停不下来的复盘和幻想\n睡着了还在做剧情梦" },
+      { letter: "F", label: "今天有没有人对我冷淡，为什么", description: "反复回放每个细节\n情绪雷达24小时在线" },
+      { letter: "T", label: "明天的待办事项和优先级", description: "睡前规划，效率翻倍\n脑子不停转才踏实" },
+      { letter: "S", label: "什么都没有，秒睡", description: "躺下就是为了睡觉\n想那么多干嘛" },
+    ],
   },
 ];
