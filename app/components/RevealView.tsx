@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Guardian } from "@/app/data/guardians";
 import Danmaku from "./Danmaku";
+import ShareCard from "./ShareCard";
 
 interface RevealViewProps {
   guardian: Guardian;
@@ -13,29 +14,16 @@ interface RevealViewProps {
 
 export default function RevealView({ guardian, onRestart }: RevealViewProps) {
   const [phase, setPhase] = useState<"burst" | "settle">("burst");
-  const [copied, setCopied] = useState(false);
+  const [showShare, setShowShare] = useState(false);
 
   useEffect(() => {
     const t = setTimeout(() => setPhase("settle"), 1600);
     return () => clearTimeout(t);
   }, []);
 
-  async function handleShare() {
-    const text = `${guardian.shareText} https://guardian-god.vercel.app`;
-    if (navigator.share) {
-      try {
-        await navigator.share({ text });
-        return;
-      } catch {
-        // fallthrough
-      }
-    }
-    await navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  }
-
   return (
+    <>
+    {showShare && <ShareCard guardian={guardian} onClose={() => setShowShare(false)} />}
     <div
       className="fixed inset-0 flex flex-col overflow-hidden"
       style={{ background: `linear-gradient(160deg, ${guardian.primaryColor} 0%, #0a0a1a 60%)` }}
@@ -130,12 +118,12 @@ export default function RevealView({ guardian, onRestart }: RevealViewProps) {
         {/* buttons */}
         <div className="flex flex-col gap-3">
           <motion.button
-            onClick={handleShare}
+            onClick={() => setShowShare(true)}
             whileTap={{ scale: 0.96 }}
             className="w-full py-4 rounded-2xl font-bold text-lg text-black"
             style={{ background: guardian.accentColor }}
           >
-            {copied ? "✅ 已复制到剪贴板" : "🔮 分享给朋友"}
+            🔮 生成分享图
           </motion.button>
           <motion.button
             onClick={onRestart}
@@ -147,5 +135,6 @@ export default function RevealView({ guardian, onRestart }: RevealViewProps) {
         </div>
       </motion.div>
     </div>
+    </>
   );
 }
